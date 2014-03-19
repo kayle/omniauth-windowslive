@@ -9,7 +9,7 @@ module OmniAuth
       # Scopes and permissions => http://msdn.microsoft.com/en-us/library/hh243646.aspx
       DEFAULT_SCOPE = 'wl.basic,wl.emails,wl.photos'
 
-      option : client_options, {
+      option :client_options, {
         :site => 'https://login.live.com',
         :authorize_url => '/oauth20_authorize.srf',
         :token_url => '/oauth20_token.srf'
@@ -49,6 +49,15 @@ module OmniAuth
         @raw_info ||= MultiJson.decode(access_token.get(request).body)
       end
 
+      def build_access_token
+        if request.params['accesstoken']
+          hash = {:access_token => request.params['accesstoken']}
+          ::OAuth2::AccessToken.from_hash(client, hash)
+        else
+          verifier = request.params['code']
+          client.auth_code.get_token(verifier, {:redirect_uri => callback_url}.merge(token_params.to_hash(:symbolize_keys => true)))
+        end
+      end
     end
   end
 end
