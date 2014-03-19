@@ -9,10 +9,10 @@ module OmniAuth
       # Scopes and permissions => http://msdn.microsoft.com/en-us/library/hh243646.aspx
       DEFAULT_SCOPE = 'wl.basic,wl.emails,wl.photos'
 
-      option :client_options, {
-        :site => 'https://oauth.live.com',
-        :authorize_url => '/authorize',
-        :token_url => '/token'
+      option : client_options, {
+        :site => 'https://login.live.com',
+        :authorize_url => '/oauth20_authorize.srf',
+        :token_url => '/oauth20_token.srf'
       }
 
       option :authorize_params, {
